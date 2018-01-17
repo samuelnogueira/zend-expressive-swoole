@@ -5,6 +5,9 @@ checks:
         excluded_dependencies:
             - swoole/ide-helper
 build:
+    environment:
+        postgresql: false
+        redis: false
     tests:
         override:
             - composer check

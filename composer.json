@@ -36,7 +36,7 @@
         "zendframework/zend-servicemanager": "^3.3",
         "zendframework/zend-expressive-fastroute": "^2.1",
         "swoole/ide-helper": "^2.0",
-        "symfony/process": "^4.0",
+        "symfony/process": "^3.4 || ^4.0",
         "guzzlehttp/guzzle": "^6.3"
     },
     "autoload": {
