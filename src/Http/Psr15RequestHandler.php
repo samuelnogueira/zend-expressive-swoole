@@ -63,12 +63,17 @@ class Psr15RequestHandler implements RequestHandlerInterface
         $string = $request->rawcontent();
         $body->write($string);
 
-        return ServerRequestFactory::fromGlobals(
-            $this->normalizeServer($request->server),
+        $serverRequest = ServerRequestFactory::fromGlobals(
+            $this->extractServer($request),
             $request->get ?? null,
             $request->post ?? null,
             $request->cookie ?? null
-        )->withBody($body);
+        );
+
+        // attach body
+        $serverRequest = $serverRequest->withBody($body);
+
+        return $serverRequest;
     }
 
     /**
@@ -99,19 +104,24 @@ class Psr15RequestHandler implements RequestHandlerInterface
     /**
      * Normalize $server array originated by swoole so that if resembles the classic $_SERVER array
      *
-     * @param array $server
+     * @param \Swoole\Http\Request $request
      *
      * @return array
      */
-    private function normalizeServer(array $server): array
+    private function extractServer(Request $request): array
     {
         // swoole provides a mimic of $_SERVER value, but all keys are lower-case (go figure why)
         // convert all keys to upper case, since that's to be expected
-        $upperCaseServer = [];
-        foreach ($server as $key => $value) {
-            $upperCaseServer[strtoupper($key)] = $value;
+        $server = [];
+        foreach ($request->server as $key => $value) {
+            $server[strtoupper($key)] = $value;
         }
 
-        return $upperCaseServer;
+        // put headers in $_SERVER with 'HTTP_' prefix
+        foreach ($request->header as $key => $value) {
+            $server['HTTP_' . strtoupper($key)] = $value;
+        }
+
+        return $server;
     }
 }
