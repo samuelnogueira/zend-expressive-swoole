@@ -1,6 +1,5 @@
 language: php
-sudo: required
-dist: trusty
+sudo: false
 
 cache:
   directories:
@@ -12,9 +11,8 @@ php:
   - 7.2
 
 install:
-  - sudo apt-get install php-pear
-  - sudo pecl install swoole
-  - composer self-update
+  - git clone https://github.com/crocos/pecl-build.git $PHPENV_ROOT/plugins/pecl-build
+  - phpenv pecl swoole
   - composer install -n
 
 script:
