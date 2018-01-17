@@ -1,4 +1,8 @@
 # zend-expressive-swoole
+
+[![Build Status](https://travis-ci.org/samuelnogueira/zend-expressive-swoole.svg?branch=master)](https://travis-ci.org/samuelnogueira/zend-expressive-swoole)
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/samuelnogueira/zend-expressive-swoole/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/samuelnogueira/zend-expressive-swoole/?branch=master)
+
 Swoole HTTP server integration with Zend Expressive framework
 
 # TODO
