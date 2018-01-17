@@ -9,6 +9,19 @@
             "email": "samuel.nogueira@jumia.com"
         }
     ],
+    "repositories": [
+        {
+            "type": "package",
+            "package": {
+                "name": "swoole/ide-helper",
+                "version": "2.0.0",
+                "dist": {
+                    "url": "https://github.com/swoole/ide-helper/archive/master.zip",
+                    "type": "zip"
+                }
+            }
+        }
+    ],
     "require": {
         "php": "^7.0",
         "ext-swoole": "^2.0",
@@ -21,7 +34,10 @@
         "zendframework/zend-expressive": "^2.1",
         "zendframework/zend-diactoros": "^1.7",
         "zendframework/zend-servicemanager": "^3.3",
-        "zendframework/zend-expressive-fastroute": "^2.1"
+        "zendframework/zend-expressive-fastroute": "^2.1",
+        "swoole/ide-helper": "^2.0",
+        "symfony/process": "^4.0",
+        "guzzlehttp/guzzle": "^6.3"
     },
     "autoload": {
         "psr-4": {
