@@ -11,8 +11,7 @@ php:
   - 7.2
 
 install:
-  - git clone https://github.com/crocos/pecl-build.git $PHPENV_ROOT/plugins/pecl-build
-  - phpenv pecl swoole
+  - pecl install swoole
   - composer install -n
 
 script:
