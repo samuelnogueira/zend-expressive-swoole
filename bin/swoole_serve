@@ -20,6 +20,7 @@ call_user_func(function () {
     file_exists('config/pipeline.php') and require 'config/pipeline.php';
     file_exists('config/routes.php') and require 'config/routes.php';
 
+    /** @var \Swoole\Http\Server $server */
     $server = $container->get('Swoole\Http\Server');
     $server->start();
 });
