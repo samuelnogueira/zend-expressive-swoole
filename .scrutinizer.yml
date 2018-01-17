@@ -2,7 +2,13 @@ filter:
     paths: [src/*]
 checks:
     php:
-        code_rating: true
-        duplication: true
         excluded_dependencies:
             - swoole/ide-helper
+build:
+    nodes:
+        analysis:
+            project_setup:
+                override: true
+            tests:
+                override:
+                    - php-scrutinizer-run
