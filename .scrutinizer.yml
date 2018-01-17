@@ -4,3 +4,5 @@ checks:
     php:
         code_rating: true
         duplication: true
+        excluded_dependencies:
+            - swoole/ide-helper
