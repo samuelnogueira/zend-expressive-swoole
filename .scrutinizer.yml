@@ -1,9 +1,5 @@
 filter:
     paths: [src/*]
-checks:
-    php:
-        excluded_dependencies:
-            - swoole/ide-helper
 build:
     environment:
         postgresql: false
@@ -12,12 +8,6 @@ build:
         override:
             - composer check
     nodes:
-        analysis:
-            project_setup:
-                override: true
-            tests:
-                override:
-                    - php-scrutinizer-run
         php70:
             environment:
                 php: 7.0
