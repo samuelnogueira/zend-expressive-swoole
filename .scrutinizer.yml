@@ -1,5 +1,7 @@
 filter:
     paths: [src/*]
+checks:
+    php: true
 build:
     environment:
         postgresql: false
@@ -20,3 +22,7 @@ build:
         php72:
             environment:
                 php: 7.2
+        analysis:
+            tests:
+                override:
+                    - php-scrutinizer-run
