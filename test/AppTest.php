@@ -81,6 +81,32 @@ class AppTest extends TestCase
         }
     }
 
+    /**
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
+    public function testCookies()
+    {
+        $testServerPort = getenv('TEST_SERVER_PORT') ?: 8080;
+        $baseRequest    = new Request("http://localhost:$testServerPort?a=1&b", null, 'php://temp', [
+            'X-Header1' => 'Header Value 1',
+            'Cookie'    => 'MY_COOKIE=VALUE',
+        ]);
+
+        $getRequest = $baseRequest
+            ->withUri($baseRequest->getUri()->withPath('/my-get-route'))
+            ->withMethod('GET');
+
+        $response = $this->client->send($getRequest);
+
+        $this->assertEquals(
+            [
+                0 => 'cookie1=cookieValue; path=/; domain=oreo.com',
+                1 => 'cookie2=anotherCookieValue',
+            ],
+            $response->getHeader('Set-Cookie')
+        );
+    }
+
     public function provideRequests(): array
     {
         $testServerPort = getenv('TEST_SERVER_PORT') ?: 8080;

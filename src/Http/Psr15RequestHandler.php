@@ -2,6 +2,7 @@
 
 namespace Samuelnogueira\ExpressiveSwoole\Http;
 
+use Dflydev\FigCookies\SetCookie;
 use Interop\Http\ServerMiddleware\DelegateInterface;
 use Interop\Http\ServerMiddleware\MiddlewareInterface;
 use Psr\Http\Message\ResponseInterface;
@@ -13,7 +14,6 @@ use Zend\Diactoros\Stream;
 
 /**
  * Class Psr7Bridge
- *
  * @author  Samuel Nogueira <samuel.nogueira@jumia.com>
  */
 class Psr15RequestHandler implements RequestHandlerInterface
@@ -59,7 +59,7 @@ class Psr15RequestHandler implements RequestHandlerInterface
      */
     private function createServerRequest(Request $request): ServerRequestInterface
     {
-        $body = new Stream('php://memory', 'r+');
+        $body   = new Stream('php://memory', 'r+');
         $string = $request->rawcontent();
         $body->write($string);
 
@@ -84,9 +84,14 @@ class Psr15RequestHandler implements RequestHandlerInterface
     {
         // set response status
         $response->status($serverResponse->getStatusCode());
+        $headers = $serverResponse->getHeaders();
+
+        //set cookies
+        $this->setResponseCookies($response, $headers['Set-Cookie'] ?? []);
+        unset($headers['Set-Cookie']);
 
         // set response headers
-        foreach ($serverResponse->getHeaders() as $key => $values) {
+        foreach ($headers as $key => $values) {
             foreach ($values as $value) {
                 $response->header($key, $value);
             }
@@ -99,6 +104,22 @@ class Psr15RequestHandler implements RequestHandlerInterface
         }
 
         $response->end();
+    }
+
+    private function setResponseCookies(Response $response, array $cookies)
+    {
+        foreach ($cookies as $cookieString) {
+            $cookie = SetCookie::fromSetCookieString($cookieString);
+            $response->cookie(
+                $cookie->getName(),
+                $cookie->getValue(),
+                $cookie->getExpires(),
+                $cookie->getPath(),
+                $cookie->getDomain(),
+                $cookie->getSecure(),
+                $cookie->getHttpOnly()
+            );
+        }
     }
 
     /**
