@@ -7,6 +7,9 @@ build:
     tests:
         override:
             - composer check
+    # Runs before inferred commands
+    before:
+        - 'pecl install swoole-2.0.12'
     nodes:
         php70:
             environment:
