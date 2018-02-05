@@ -25,15 +25,16 @@ $testAction = function (ServerRequestInterface $request) {
         'X-My-Header' => 'test',
     ];
 
-    $response = new JsonResponse($data, $status, $headers);
-    $response = FigResponseCookies::set($response, SetCookie::create('cookie1')
+    $cookie1 = SetCookie::create('cookie1')
         ->withValue('cookieValue')
         ->withDomain('oreo.com')
-        ->withPath('/')
-    );
-    $response = FigResponseCookies::set($response, SetCookie::create('cookie2')
-        ->withValue('anotherCookieValue')
-    );
+        ->withPath('/');
+    $cookie2 = SetCookie::create('cookie2')
+        ->withValue('anotherCookieValue');
+
+    $response = new JsonResponse($data, $status, $headers);
+    $response = FigResponseCookies::set($response, $cookie1);
+    $response = FigResponseCookies::set($response, $cookie2);
 
     return $response;
 };
