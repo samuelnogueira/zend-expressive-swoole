@@ -40,6 +40,9 @@
         "symfony/process": "^3.4 || ^4.0",
         "guzzlehttp/guzzle": "^6.3"
     },
+    "suggest": {
+        "ext-inotify": "Needed for hot code reload"
+    },
     "autoload": {
         "psr-4": {
             "Samuelnogueira\\ExpressiveSwoole\\": "src/"

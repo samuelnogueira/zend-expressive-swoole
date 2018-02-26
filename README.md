@@ -33,6 +33,10 @@ return [
             'http_parse_post' => false, 
             'worker_num'      => 100, 
         ],
+        'hot_code_reload' => [
+            'enabled'  => true, // default is false
+            'interval' => 500,  // default is 1000. Milliseconds between file changes checks.
+        ],
     ],
 ];
 ```
@@ -43,6 +47,25 @@ return [
 $ ./vendor/bin/swoole
 ```
 
+## Hot Code Reload
+To enable hot code reload, add the following configuration:
+```php
+<?php // config/autoload/swoole.global.php
+
+return [
+    'swoole_http_server' => [
+        // (...)
+        'hot_code_reload' => [
+            'enabled'  => true,
+        ],
+    ],
+];
+```
+With this feature enabled, each swoole worker will keep track of included PHP files using [inotify](https://pecl.php.net/package/inotify), and will restart all workers if a file is changed.
+
+This serves to enable easier development when using swoole server.
+
+**Do not use this feature in production**. It doesn't perform well for a big number of workers, nor is it safe.
 
 ## TODO
 - [x] ~~Cookies retrievable via \Psr\Http\Message\ServerRequestInterface::getCookieParams~~
@@ -52,3 +75,4 @@ $ ./vendor/bin/swoole
 - [ ] Stream response body instead of buffering it
 - [x] ~~Configurable number of workers~~
 - [ ] Windows support?
+- [x] ~~Hot code reload~~
