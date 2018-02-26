@@ -34,7 +34,7 @@ class HotCodeReloader
     public function __invoke()
     {
         $events = \inotify_read($this->inotify);
-        if ($events) {
+        if (false !== $events) {
             $this->server->reload();
         }
 
