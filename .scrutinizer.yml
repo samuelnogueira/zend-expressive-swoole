@@ -7,23 +7,25 @@ build:
         postgresql: false
         redis: false
     nodes:
-        php70:
+        old:
             environment:
                 php: 7.0
             dependencies:
                 override:
                     - yes | pecl install swoole-2.0.10
                     - composer update --prefer-lowest --no-interaction
+                    - composer show
             tests:
                 override:
                     - composer check
-        php72:
+        fresh:
             environment:
                 php: 7.2
             dependencies:
                 override:
                     - yes | pecl install swoole-2.1.0
                     - composer update --no-interaction
+                    - composer show
             tests:
                 override:
                     - composer check
