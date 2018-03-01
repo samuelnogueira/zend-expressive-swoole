@@ -6,9 +6,6 @@ build:
     environment:
         postgresql: false
         redis: false
-    tests:
-        override:
-            - composer check
     nodes:
         php70:
             environment:
@@ -17,6 +14,9 @@ build:
                 override:
                     - yes | pecl install swoole-2.0.10
                     - composer update --prefer-lowest --no-interaction
+            tests:
+                override:
+                    - composer check
         php72:
             environment:
                 php: 7.2
@@ -24,10 +24,7 @@ build:
                 override:
                     - yes | pecl install swoole-2.1.0
                     - composer update --no-interaction
-        analysis:
-            dependencies:
-                override:
-                    - composer update --no-interaction
             tests:
                 override:
+                    - composer check
                     - php-scrutinizer-run
