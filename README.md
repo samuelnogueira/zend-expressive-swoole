@@ -40,14 +40,15 @@ return [
     ],
 ];
 ```
-
+Any omitted config key will fallback to the default value in the comments above.
+ 
 ## Usage
 ```bash
 # Start swoole HTTP booting your Zend Expressive app
 $ ./vendor/bin/swoole
 ```
 
-## Hot Code Reload
+### Hot Code Reload
 To enable hot code reload, add the following configuration:
 ```php
 <?php // config/autoload/swoole.global.php
@@ -69,10 +70,10 @@ This serves to enable easier development when using swoole server.
 
 ## TODO
 - [x] ~~Cookies retrievable via \Psr\Http\Message\ServerRequestInterface::getCookieParams~~
+- [x] ~~Configurable number of workers~~
+- [x] ~~Hot code reload~~
 - [ ] Include `Cookie` header in generated PSR-7 Server Request
 - [ ] Handle uploaded files
 - [ ] Stream request body instead of buffering it
 - [ ] Stream response body instead of buffering it
-- [x] ~~Configurable number of workers~~
 - [ ] Windows support?
-- [x] ~~Hot code reload~~

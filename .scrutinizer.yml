@@ -9,20 +9,25 @@ build:
     tests:
         override:
             - composer check
-    dependencies:
-        before:
-            - pecl install swoole-2.0.12
     nodes:
         php70:
             environment:
                 php: 7.0
-        php71:
-            environment:
-                php: 7.1
+            dependencies:
+                override:
+                    - yes | pecl install swoole-2.0.10
+                    - composer update --prefer-lowest --no-interaction
         php72:
             environment:
                 php: 7.2
+            dependencies:
+                override:
+                    - yes | pecl install swoole-2.1.0
+                    - composer update --no-interaction
         analysis:
+            dependencies:
+                override:
+                    - composer update --no-interaction
             tests:
                 override:
                     - php-scrutinizer-run
