@@ -31,13 +31,15 @@ call_user_func(function () use ($argv) {
 
     /** @var \Swoole\Http\Server $server */
     $server = $container->get('Swoole\Http\Server');
-    $server->start();
 
-    // if we are in collect code coverage mode, store results
+    // if we are in collect code coverage mode, store results on worker shutdown
     if (isset($coverage)) {
-        $coverage->stop();
-
-        $writer = new \SebastianBergmann\CodeCoverage\Report\Clover;
-        $writer->process($coverage, $argv[2]);
+        $server->on('WorkerStop', function () use ($coverage, $argv) {
+            $coverage->stop();
+            $writer = new \SebastianBergmann\CodeCoverage\Report\Clover;
+            $writer->process($coverage, $argv[2]);
+        });
     }
+
+    $server->start();
 });

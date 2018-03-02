@@ -10,10 +10,23 @@ use Zend\ServiceManager\ServiceManager;
 
 // Initialize config
 $config = [
-    'dependencies' => [
+    'dependencies'       => [
         'factories' => [
             Application::class => ApplicationFactory::class,
             TestAction::class  => InvokableFactory::class,
+        ],
+    ],
+    'swoole_http_server' => [
+        'settings'        => [
+            // we are collecting code coverage, we don't want processes to overwrite each-other's coverage.xml file
+            'worker_num' => 1,
+        ],
+
+        // run hot code reload ticks to improve code coverage a bit
+        // we don't have tests for this feature though
+        'hot_code_reload' => [
+            'enabled'  => true,
+            'interval' => 100,
         ],
     ],
 ];

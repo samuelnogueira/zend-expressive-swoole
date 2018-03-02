@@ -12,7 +12,7 @@ build:
                 php: 7.0
             dependencies:
                 override:
-                    - yes | pecl install swoole-2.0.10
+                    - yes | pecl install inotify swoole-2.0.10
                     - composer update --prefer-lowest --no-interaction
                     - composer show
             tests:
@@ -23,7 +23,7 @@ build:
                 php: 7.2
             dependencies:
                 override:
-                    - yes | pecl install swoole-2.1.0 xdebug
+                    - yes | pecl install inotify swoole-2.1.0 xdebug
                     - composer update --no-interaction
                     - composer show
             tests:
