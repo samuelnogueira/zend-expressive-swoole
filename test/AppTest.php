@@ -25,14 +25,10 @@ class AppTest extends TestCase
     public static function setUpBeforeClass()
     {
         // start swoole server loaded up with test app (expressive)
-        $process = new Process(
-            [
-                '../../bin/swoole_serve',
-                '../../vendor/autoload.php',
-                '../../test/reports/coverage.xml'
-            ],
-            __DIR__ . '/app'
-        );
+        $commandLine = getenv('WITH_COVERAGE')
+            ? ['../../bin/swoole_serve', '../../vendor/autoload.php', '../reports/coverage.xml']
+            : ['../../bin/swoole_serve', '../../vendor/autoload.php'];
+        $process     = new Process($commandLine, __DIR__ . '/app');
         $process->start();
 
         // wait for server to boot-up

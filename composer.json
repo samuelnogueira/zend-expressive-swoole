@@ -58,6 +58,7 @@
             "@test"
         ],
         "test": "phpunit",
+        "test-coverage": "WITH_COVERAGE=1 phpunit",
         "test-serve": "(cd test/app && ./../../bin/swoole_serve ../../vendor/autoload.php)",
         "cs-check": "phpcs"
     }

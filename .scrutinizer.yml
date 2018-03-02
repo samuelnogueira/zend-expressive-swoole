@@ -17,19 +17,20 @@ build:
                     - composer show
             tests:
                 override:
-                    - composer check
+                    - composer test
         fresh:
             environment:
                 php: 7.2
             dependencies:
                 override:
-                    - yes | pecl install swoole-2.1.0
+                    - yes | pecl install swoole-2.1.0 xdebug
                     - composer update --no-interaction
                     - composer show
             tests:
                 override:
+                    - composer cs-check
                     -
-                      command: composer check
+                      command: composer test-coverage
                       coverage:
                           file: 'test/reports/coverage.xml'
                           format: 'clover'
