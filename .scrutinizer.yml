@@ -28,5 +28,9 @@ build:
                     - composer show
             tests:
                 override:
-                    - composer check
+                    -
+                      command: composer check
+                      coverage:
+                          file: 'test/reports/coverage.xml'
+                          format: 'clover'
                     - php-scrutinizer-run

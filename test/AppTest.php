@@ -6,6 +6,7 @@ namespace Samuelnogueira\ExpressiveSwooleTest;
 use GuzzleHttp\Client;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\RequestInterface;
+use Symfony\Component\Process\Exception\ProcessFailedException;
 use Symfony\Component\Process\Process;
 use Zend\Diactoros\Request;
 use function GuzzleHttp\Psr7\stream_for;
@@ -24,11 +25,24 @@ class AppTest extends TestCase
     public static function setUpBeforeClass()
     {
         // start swoole server loaded up with test app (expressive)
-        static::$process = new Process('exec ./../../bin/swoole_serve ../../vendor/autoload.php', __DIR__ . '/app');
-        static::$process->start();
+        $process = new Process(
+            [
+                '../../bin/swoole_serve',
+                '../../vendor/autoload.php',
+                '../../test/reports/coverage.xml'
+            ],
+            __DIR__ . '/app'
+        );
+        $process->start();
 
         // wait for server to boot-up
         sleep(1);
+
+        if (!$process->isRunning()) {
+            throw new ProcessFailedException($process);
+        }
+
+        static::$process = $process;
     }
 
     public static function tearDownAfterClass()

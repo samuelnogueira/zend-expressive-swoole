@@ -1,6 +1,7 @@
 #!/usr/bin/env php
 <?php
 
+use SebastianBergmann\CodeCoverage\CodeCoverage;
 use Zend\Expressive\Application;
 
 require $argv[1] ?? 'vendor/autoload.php';
@@ -8,7 +9,15 @@ require $argv[1] ?? 'vendor/autoload.php';
 /**
  * Self-called anonymous function that creates its own scope and keep the global namespace clean.
  */
-call_user_func(function () {
+call_user_func(function () use ($argv) {
+    // this is used to collect code coverage during tests
+    // this second argument shouldn't ever be passed in production environment
+    if (!empty($argv[2])) {
+        $coverage = new CodeCoverage();
+        $coverage->filter()->addDirectoryToWhitelist(dirname(__DIR__) . DIRECTORY_SEPARATOR . 'src');
+        $coverage->start('<zend-expressive-swoole Test Suite>');
+    }
+
     /** @var \Psr\Container\ContainerInterface $container */
     $container = require 'config/container.php';
 
@@ -23,4 +32,12 @@ call_user_func(function () {
     /** @var \Swoole\Http\Server $server */
     $server = $container->get('Swoole\Http\Server');
     $server->start();
+
+    // if we are in collect code coverage mode, store results
+    if (isset($coverage)) {
+        $coverage->stop();
+
+        $writer = new \SebastianBergmann\CodeCoverage\Report\Clover;
+        $writer->process($coverage, $argv[2]);
+    }
 });
