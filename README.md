@@ -2,6 +2,7 @@
 
 [![Packagist Pre Release](https://img.shields.io/packagist/vpre/samuelnogueira/zend-expressive-swoole.svg)](https://packagist.org/packages/samuelnogueira/zend-expressive-swoole)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/samuelnogueira/zend-expressive-swoole/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/samuelnogueira/zend-expressive-swoole/?branch=master)
+[![Code Coverage](https://scrutinizer-ci.com/g/samuelnogueira/zend-expressive-swoole/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/samuelnogueira/zend-expressive-swoole/?branch=master)
 [![Build Status](https://scrutinizer-ci.com/g/samuelnogueira/zend-expressive-swoole/badges/build.png?b=master)](https://scrutinizer-ci.com/g/samuelnogueira/zend-expressive-swoole/build-status/master)
 [![Code Intelligence Status](https://scrutinizer-ci.com/g/samuelnogueira/zend-expressive-swoole/badges/code-intelligence.svg?b=master)](https://scrutinizer-ci.com/code-intelligence)
 
