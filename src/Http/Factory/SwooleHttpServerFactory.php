@@ -3,7 +3,7 @@
 namespace Samuelnogueira\ExpressiveSwoole\Http\Factory;
 
 use Psr\Container\ContainerInterface;
-use Samuelnogueira\ExpressiveSwoole\Http\RequestHandlerInterface;
+use Samuelnogueira\ExpressiveSwoole\Http\SwooleRequestHandlerInterface;
 use Swoole\Http\Server;
 
 /**
@@ -27,7 +27,7 @@ class SwooleHttpServerFactory
 
         $server = new Server($host, $port);
         $server->set($settings);
-        $server->on('request', $container->get(RequestHandlerInterface::class));
+        $server->on('request', $container->get(SwooleRequestHandlerInterface::class));
 
         return $server;
     }

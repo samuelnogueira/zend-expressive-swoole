@@ -6,9 +6,9 @@ use Swoole\Http\Request;
 use Swoole\Http\Response;
 
 /**
- * Interface RequestHandlerInterface
+ * Interface SwooleRequestHandlerInterface
  */
-interface RequestHandlerInterface
+interface SwooleRequestHandlerInterface
 {
     /**
      * @param \Swoole\Http\Request  $request

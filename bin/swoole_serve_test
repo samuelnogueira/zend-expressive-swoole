@@ -1,0 +1,30 @@
+#!/usr/bin/env php
+<?php
+
+require 'vendor/autoload.php';
+
+use Samuelnogueira\ExpressiveSwoole\Bootstrap;
+use SebastianBergmann\CodeCoverage\CodeCoverage;
+
+/**
+ * Self-called anonymous function that creates its own scope and keep the global namespace clean.
+ */
+(function () use ($argv) {
+    if (!empty($argv[1])) {
+        $coverage = new CodeCoverage();
+        $coverage->filter()->addDirectoryToWhitelist(dirname(__DIR__) . DIRECTORY_SEPARATOR . 'src');
+        $coverage->start('<zend-expressive-swoole Test Suite>');
+    }
+
+    $bootstrap = new Bootstrap();
+
+    if (isset($coverage)) {
+        $bootstrap->getSwooleHttpServer()->on('WorkerStop', function () use ($coverage, $argv) {
+            $coverage->stop();
+            $writer = new \SebastianBergmann\CodeCoverage\Report\Clover;
+            $writer->process($coverage, $argv[1]);
+        });
+    }
+
+    $bootstrap();
+})();

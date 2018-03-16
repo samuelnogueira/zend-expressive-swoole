@@ -3,10 +3,9 @@
 namespace Samuelnogueira\ExpressiveSwoole\Http;
 
 use Dflydev\FigCookies\SetCookie;
-use Interop\Http\ServerMiddleware\DelegateInterface;
-use Interop\Http\ServerMiddleware\MiddlewareInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
+use Psr\Http\Server\RequestHandlerInterface;
 use Swoole\Http\Request;
 use Swoole\Http\Response;
 use Zend\Diactoros\ServerRequestFactory;
@@ -16,28 +15,21 @@ use Zend\Diactoros\Stream;
  * Class Psr7Bridge
  * @author  Samuel Nogueira <samuel.nogueira@jumia.com>
  */
-class Psr15RequestHandler implements RequestHandlerInterface
+class Psr15SwooleRequestHandler implements SwooleRequestHandlerInterface
 {
     /**
-     * @var \Interop\Http\ServerMiddleware\MiddlewareInterface
+     * @var RequestHandlerInterface
      */
-    private $middleware;
-
-    /**
-     * @var \Interop\Http\ServerMiddleware\DelegateInterface
-     */
-    private $delegator;
+    private $requestHandler;
 
     /**
      * Psr15Bridge constructor.
      *
-     * @param \Interop\Http\ServerMiddleware\MiddlewareInterface $middleware
-     * @param \Interop\Http\ServerMiddleware\DelegateInterface   $delegator
+     * @param \Psr\Http\Server\RequestHandlerInterface $requestHandler
      */
-    public function __construct(MiddlewareInterface $middleware, DelegateInterface $delegator)
+    public function __construct(RequestHandlerInterface $requestHandler)
     {
-        $this->middleware = $middleware;
-        $this->delegator  = $delegator;
+        $this->requestHandler = $requestHandler;
     }
 
     /**
@@ -47,7 +39,7 @@ class Psr15RequestHandler implements RequestHandlerInterface
     public function __invoke(Request $request, Response $response): void
     {
         $serverRequest  = $this->createServerRequest($request);
-        $serverResponse = $this->middleware->process($serverRequest, $this->delegator);
+        $serverResponse = $this->requestHandler->handle($serverRequest);
 
         $this->emitResponse($serverResponse, $response);
     }
@@ -60,7 +52,7 @@ class Psr15RequestHandler implements RequestHandlerInterface
     private function createServerRequest(Request $request): ServerRequestInterface
     {
         $body   = new Stream('php://memory', 'r+');
-        $string = $request->rawcontent();
+        $string = $request->rawContent();
         $body->write($string);
 
         $serverRequest = ServerRequestFactory::fromGlobals(
@@ -71,9 +63,7 @@ class Psr15RequestHandler implements RequestHandlerInterface
         );
 
         // attach body
-        $serverRequest = $serverRequest->withBody($body);
-
-        return $serverRequest;
+        return $serverRequest->withBody($body);
     }
 
     /**

@@ -1,10 +1,9 @@
 <?php
 
 use Samuelnogueira\ExpressiveSwoole\ConfigProvider;
-use Samuelnogueira\ExpressiveSwooleTest\app\src\TestAction;
-use Zend\Expressive\Application;
-use Zend\Expressive\Container\ApplicationFactory;
-use Zend\ServiceManager\Config;
+use Samuelnogueira\ExpressiveSwooleTest\app\src\TestHandler;
+use Zend\ConfigAggregator\ArrayProvider;
+use Zend\ConfigAggregator\ConfigAggregator;
 use Zend\ServiceManager\Factory\InvokableFactory;
 use Zend\ServiceManager\ServiceManager;
 
@@ -12,8 +11,7 @@ use Zend\ServiceManager\ServiceManager;
 $config = [
     'dependencies'       => [
         'factories' => [
-            Application::class => ApplicationFactory::class,
-            TestAction::class  => InvokableFactory::class,
+            TestHandler::class => InvokableFactory::class,
         ],
     ],
     'swoole_http_server' => [
@@ -30,13 +28,19 @@ $config = [
         ],
     ],
 ];
-$config = array_merge_recursive($config, (new ConfigProvider)());
+
+$aggregator = new ConfigAggregator([
+    \Zend\HttpHandlerRunner\ConfigProvider::class,
+    \Zend\Expressive\ConfigProvider::class,
+    \Zend\Expressive\Router\ConfigProvider::class,
+    \Zend\Expressive\Router\FastRouteRouter\ConfigProvider::class,
+    ConfigProvider::class,
+    new ArrayProvider($config),
+]);
+$config     = $aggregator->getMergedConfig();
+
+$dependencies                       = $config['dependencies'];
+$dependencies['services']['config'] = $config;
 
 // Build container
-$container = new ServiceManager();
-(new Config($config['dependencies']))->configureServiceManager($container);
-
-// Inject config
-$container->setService('config', $config);
-
-return $container;
+return new ServiceManager($dependencies);

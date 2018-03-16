@@ -26,8 +26,8 @@ class AppTest extends TestCase
     {
         // start swoole server loaded up with test app (expressive)
         $commandLine = getenv('WITH_COVERAGE')
-            ? ['../../bin/swoole_serve', '../../vendor/autoload.php', '../reports/coverage.xml']
-            : ['../../bin/swoole_serve', '../../vendor/autoload.php'];
+            ? ['../../bin/swoole_serve_test', '../reports/coverage.xml']
+            : ['../../bin/swoole_serve_test'];
         $process     = new Process($commandLine, __DIR__ . '/app');
         $process->start();
 
@@ -108,7 +108,7 @@ class AppTest extends TestCase
 
         $response = $this->client->send($getRequest);
 
-        $this->assertEquals(
+        static::assertEquals(
             [
                 0 => 'cookie1=cookieValue; path=/; domain=oreo.com',
                 1 => 'cookie2=anotherCookieValue',

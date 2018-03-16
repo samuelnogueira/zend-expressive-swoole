@@ -4,30 +4,27 @@ namespace Samuelnogueira\ExpressiveSwooleTest\app\src;
 
 use Dflydev\FigCookies\FigResponseCookies;
 use Dflydev\FigCookies\SetCookie;
-use Interop\Http\ServerMiddleware\DelegateInterface;
-use Interop\Http\ServerMiddleware\MiddlewareInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
+use Psr\Http\Server\RequestHandlerInterface;
 use Zend\Diactoros\Response\JsonResponse;
 
 /**
- * Class TestAction
+ * Class TestHandler
  *
  * @author  Samuel Nogueira <samuel.nogueira@jumia.com>
  * @package Samuelnogueira\ExpressiveSwooleTest\app\src
  */
-class TestAction implements MiddlewareInterface
+class TestHandler implements RequestHandlerInterface
 {
     /**
-     * Process an incoming server request and return a response, optionally delegating
-     * to the next middleware component to create the response.
+     * Handle the request and return a response.
      *
-     * @param ServerRequestInterface $request
-     * @param DelegateInterface      $delegate
+     * @param \Psr\Http\Message\ServerRequestInterface $request
      *
-     * @return ResponseInterface
+     * @return \Psr\Http\Message\ResponseInterface
      */
-    public function process(ServerRequestInterface $request, DelegateInterface $delegate)
+    public function handle(ServerRequestInterface $request): ResponseInterface
     {
         $data    = [
             'protocolVersion' => $request->getProtocolVersion(),

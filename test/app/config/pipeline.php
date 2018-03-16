@@ -1,10 +1,17 @@
 <?php
 
+declare(strict_types=1);
+
+use Zend\Expressive\Application;
+use Zend\Expressive\Router\Middleware\DispatchMiddleware;
+use Zend\Expressive\Router\Middleware\RouteMiddleware;
+
 /**
  * Setup middleware pipeline:
  *
- * @var \Zend\Expressive\Application $app
+ * @param \Zend\Expressive\Application $app
  */
-
-$app->pipeRoutingMiddleware();
-$app->pipeDispatchMiddleware();
+return function (Application $app): void {
+    $app->pipe(RouteMiddleware::class);
+    $app->pipe(DispatchMiddleware::class);
+};

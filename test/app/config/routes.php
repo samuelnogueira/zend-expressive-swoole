@@ -1,8 +1,16 @@
 <?php
 
-/** @var \Zend\Expressive\Application $app */
+declare(strict_types=1);
 
-use Samuelnogueira\ExpressiveSwooleTest\app\src\TestAction;
+use Samuelnogueira\ExpressiveSwooleTest\app\src\TestHandler;
+use Zend\Expressive\Application;
 
-$app->get('/my-get-route', TestAction::class);
-$app->post('/my-post-route', TestAction::class);
+/**
+ * Setup routes
+ *
+ * @param \Zend\Expressive\Application $app
+ */
+return function (Application $app): void {
+    $app->get('/my-get-route', TestHandler::class);
+    $app->post('/my-post-route', TestHandler::class);
+};
