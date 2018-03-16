@@ -13,7 +13,7 @@
         "sort-packages": true
     },
     "require": {
-        "php": "^7.0",
+        "php": "^7.1",
         "ext-swoole": "^2.0",
         "psr/container": "^1.0",
         "psr/http-server-middleware": "^1.0",

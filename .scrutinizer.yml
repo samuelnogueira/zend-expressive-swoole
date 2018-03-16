@@ -9,7 +9,7 @@ build:
     nodes:
         old:
             environment:
-                php: 7.0
+                php: 7.1
             dependencies:
                 override:
                     - yes | pecl install inotify swoole-2.0.10
