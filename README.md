@@ -10,9 +10,11 @@
 
 ## Requirements
 
-* PHP >= 7.0
+* PHP >= 7.1
 * [ext-swoole](https://pecl.php.net/package/swoole) >= 2.0
-* [Zend Expressive](https://docs.zendframework.com/zend-expressive/) application
+* [Zend Expressive](https://docs.zendframework.com/zend-expressive/) v3 application
+
+Support for older version v2 of Zend Expressive is provided in version [0.2](https://packagist.org/packages/samuelnogueira/zend-expressive-swoole#0.2.0) of this library.
 
 ## Installation
 
@@ -73,6 +75,7 @@ This serves to enable easier development when using swoole server.
 - [x] ~~Cookies retrievable via \Psr\Http\Message\ServerRequestInterface::getCookieParams~~
 - [x] ~~Configurable number of workers~~
 - [x] ~~Hot code reload~~
+- [x] ~~Add support for Zend Expressive 3~~
 - [ ] Include `Cookie` header in generated PSR-7 Server Request
 - [ ] Handle uploaded files
 - [ ] Stream request body instead of buffering it
