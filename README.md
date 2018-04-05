@@ -4,6 +4,7 @@
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/samuelnogueira/zend-expressive-swoole/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/samuelnogueira/zend-expressive-swoole/?branch=master)
 [![Code Coverage](https://scrutinizer-ci.com/g/samuelnogueira/zend-expressive-swoole/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/samuelnogueira/zend-expressive-swoole/?branch=master)
 [![Build Status](https://scrutinizer-ci.com/g/samuelnogueira/zend-expressive-swoole/badges/build.png?b=master)](https://scrutinizer-ci.com/g/samuelnogueira/zend-expressive-swoole/build-status/master)
+[![CircleCI](https://circleci.com/gh/samuelnogueira/zend-expressive-swoole.svg?style=shield)](https://circleci.com/gh/samuelnogueira/zend-expressive-swoole)
 [![Code Intelligence Status](https://scrutinizer-ci.com/g/samuelnogueira/zend-expressive-swoole/badges/code-intelligence.svg?b=master)](https://scrutinizer-ci.com/code-intelligence)
 
 [Swoole](http://www.swoole.com/) HTTP server integration with [Zend Expressive](https://docs.zendframework.com/zend-expressive/) framework
