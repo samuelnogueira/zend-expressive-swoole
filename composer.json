@@ -59,7 +59,7 @@
             "@cs-check",
             "@test"
         ],
-        "test": "phpunit",
+        "test": "phpunit --log-junit test/reports/junit.xml",
         "test-coverage": "WITH_COVERAGE=1 phpunit",
         "test-serve": "(cd test/app && ./../../bin/swoole_serve_test)",
         "cs-check": "phpcs"

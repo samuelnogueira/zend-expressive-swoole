@@ -1,0 +1,63 @@
+# PHP CircleCI 2.0 configuration file
+#
+# Check https://circleci.com/docs/2.0/language-php/ for more details
+#
+version: 2
+jobs:
+  build-new:
+    docker:
+      - image: circleci/php
+    working_directory: ~/build-new
+    steps:
+      - checkout
+
+      - run: yes | sudo pecl install inotify swoole-2.1.1
+      - run: sudo docker-php-ext-enable inotify swoole
+
+      - restore_cache:
+          keys:
+          - v1-dependencies-new-{{ checksum "composer.json" }}
+          - v1-dependencies-new-
+
+      - run: composer update -n
+      - run: composer show
+
+      - save_cache:
+          paths:
+            - ./vendor
+          key: v1-dependencies-new-{{ checksum "composer.json" }}
+
+      - run: composer cs-check
+      - run: composer test
+      - store_test_results:
+          path: ./test/reports
+      - store_artifacts:
+          path: ./test/reports
+
+  build-old:
+    docker:
+      - image: circleci/php:7.1
+    working_directory: ~/build-old
+    steps:
+      - checkout
+      - run: yes | sudo pecl install inotify swoole-2.0.10
+      - run: sudo docker-php-ext-enable inotify swoole
+
+      - restore_cache:
+          keys:
+          - v1-dependencies-old-{{ checksum "composer.json" }}
+          - v1-dependencies-old
+
+      - run: composer update -n --prefer-lowest
+      - run: composer show
+
+      - save_cache:
+          paths:
+            - ./vendor
+          key: v1-dependencies-old-{{ checksum "composer.json" }}
+
+      - run: composer test
+      - store_test_results:
+          path: ./test/reports
+      - store_artifacts:
+          path: ./test/reports
