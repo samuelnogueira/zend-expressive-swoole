@@ -1,5 +1,15 @@
 #!/usr/bin/env php
 <?php
 
-require 'vendor/autoload.php';
-(new Samuelnogueira\ExpressiveSwoole\Bootstrap)();
+require_once 'vendor/autoload.php';
+
+/**
+ * Self-called anonymous function that creates its own scope and keep the global namespace clean.
+ */
+(function () {
+    /** @var \Psr\Container\ContainerInterface $container */
+    /** @var \Swoole\Http\Server $server */
+    $container = require 'config/container.php';
+    $server    = $container->get('Swoole\Http\Server');
+    $server->start();
+})();

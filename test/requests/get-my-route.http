@@ -1,0 +1,4 @@
+GET http://localhost:8080/my-get-route?id=99
+Accepts: application/json
+
+###

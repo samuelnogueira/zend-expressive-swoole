@@ -3,7 +3,6 @@
 
 require 'vendor/autoload.php';
 
-use Samuelnogueira\ExpressiveSwoole\Bootstrap;
 use SebastianBergmann\CodeCoverage\CodeCoverage;
 
 /**
@@ -16,15 +15,18 @@ use SebastianBergmann\CodeCoverage\CodeCoverage;
         $coverage->start('<zend-expressive-swoole Test Suite>');
     }
 
-    $bootstrap = new Bootstrap();
+    /** @var \Psr\Container\ContainerInterface $container */
+    /** @var \Swoole\Http\Server $server */
+    $container = require 'config/container.php';
+    $server    = $container->get('Swoole\Http\Server');
 
     if (isset($coverage)) {
-        $bootstrap->getSwooleHttpServer()->on('WorkerStop', function () use ($coverage, $argv) {
+        $server->on('WorkerStop', function () use ($coverage, $argv) {
             $coverage->stop();
             $writer = new \SebastianBergmann\CodeCoverage\Report\Clover;
             $writer->process($coverage, $argv[1]);
         });
     }
 
-    $bootstrap();
+    $server->start();
 })();

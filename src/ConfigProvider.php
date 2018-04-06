@@ -5,7 +5,6 @@ namespace Samuelnogueira\ExpressiveSwoole;
 use Samuelnogueira\ExpressiveSwoole\Http\Factory\Psr15RequestHandlerFactory;
 use Samuelnogueira\ExpressiveSwoole\Http\Psr15SwooleRequestHandler;
 use Samuelnogueira\ExpressiveSwoole\Http\SwooleRequestHandlerInterface;
-use Samuelnogueira\ExpressiveSwoole\Tick\HotCodeReloadDelegatorFactory;
 use Swoole\Http\Server;
 
 /**
@@ -43,11 +42,7 @@ class ConfigProvider
             'factories' => [
                 Server::class                    => Http\Factory\SwooleHttpServerFactory::class,
                 Psr15SwooleRequestHandler::class => Psr15RequestHandlerFactory::class,
-            ],
-            'delegators' => [
-                Server::class => [
-                    HotCodeReloadDelegatorFactory::class,
-                ],
+                ApplicationBootstrapper::class   => ApplicationBootstrapperFactory::class,
             ],
         ];
     }
