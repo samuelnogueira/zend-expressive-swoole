@@ -3,6 +3,7 @@
 
 namespace Samuelnogueira\ExpressiveSwooleTest;
 
+use Fig\Http\Message\RequestMethodInterface;
 use GuzzleHttp\Client;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\RequestInterface;
@@ -29,7 +30,9 @@ class AppTest extends TestCase
             ? ['../../bin/swoole_serve_test', '../reports/coverage.xml']
             : ['../../bin/swoole_serve_test'];
         $process     = new Process($commandLine, __DIR__ . '/app');
-        $process->start();
+        $process->start(function ($type, $buffer) {
+            echo $buffer;
+        });
 
         // wait for server to boot-up
         sleep(1);
@@ -96,8 +99,7 @@ class AppTest extends TestCase
      */
     public function testCookies()
     {
-        $testServerPort = getenv('TEST_SERVER_PORT') ?: 8080;
-        $baseRequest    = new Request("http://localhost:$testServerPort?a=1&b", null, 'php://temp', [
+        $baseRequest = new Request("http://localhost:{$this->getPort()}?a=1&b", null, 'php://temp', [
             'X-Header1' => 'Header Value 1',
             'Cookie'    => 'MY_COOKIE=VALUE',
         ]);
@@ -117,10 +119,22 @@ class AppTest extends TestCase
         );
     }
 
+    /**
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
+    public function testLargeResponse()
+    {
+        $size     = 2 * 1024 * 1024;
+        $request  = new Request("http://localhost:{$this->getPort()}/large?size=$size", RequestMethodInterface::METHOD_GET);
+        $response = $this->client->send($request);
+
+        static::assertSame($size, $response->getBody()->getSize());
+        static::assertSame($size, strlen($response->getBody()->__toString()));
+    }
+
     public function provideRequests(): array
     {
-        $testServerPort = getenv('TEST_SERVER_PORT') ?: 8080;
-        $baseRequest    = new Request("http://localhost:$testServerPort?a=1&b", null, 'php://temp', [
+        $baseRequest = new Request("http://localhost:{$this->getPort()}?a=1&b", null, 'php://temp', [
             'X-Header1' => 'Header Value 1',
             'Cookie'    => 'MY_COOKIE=VALUE',
         ]);
@@ -146,11 +160,15 @@ class AppTest extends TestCase
             ->withHeader('Content-Length', strlen($formPayload))
             ->withBody(stream_for($formPayload));
 
-
         return [
             [$getRequest],
             [$jsonPostRequest],
             [$formPostRequest, $formData],
         ];
+    }
+
+    private function getPort(): int
+    {
+        return getenv('TEST_SERVER_PORT') ?: 8080;
     }
 }
