@@ -54,6 +54,9 @@ class TestHandler implements RequestHandlerInterface
         $response = FigResponseCookies::set($response, $cookie1);
         $response = FigResponseCookies::set($response, $cookie2);
 
+        // assert that swoole request handler rewinds body stream
+        $response->getBody()->seek(10);
+
         return $response;
     }
 }

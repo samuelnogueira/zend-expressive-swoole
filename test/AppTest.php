@@ -3,7 +3,6 @@
 
 namespace Samuelnogueira\ExpressiveSwooleTest;
 
-use Fig\Http\Message\RequestMethodInterface;
 use GuzzleHttp\Client;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\RequestInterface;

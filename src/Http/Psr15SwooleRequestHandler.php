@@ -88,7 +88,10 @@ class Psr15SwooleRequestHandler implements SwooleRequestHandlerInterface
         }
 
         // set response body
-        $bodyStream    = $serverResponse->getBody();
+        $bodyStream = $serverResponse->getBody();
+        if ($bodyStream->isSeekable()) {
+            $bodyStream->rewind();
+        }
         $contentLength = 0;
         while (!$bodyStream->eof()) {
             // buffer at most 1 Mb
