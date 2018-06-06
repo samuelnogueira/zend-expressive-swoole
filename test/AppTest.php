@@ -125,7 +125,7 @@ class AppTest extends TestCase
     public function testLargeResponse()
     {
         $size     = 2 * 1024 * 1024;
-        $request  = new Request("http://localhost:{$this->getPort()}/large?size=$size", RequestMethodInterface::METHOD_GET);
+        $request  = new Request("http://localhost:{$this->getPort()}/large?size=$size", 'GET');
         $response = $this->client->send($request);
 
         static::assertSame($size, $response->getBody()->getSize());
