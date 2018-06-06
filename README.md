@@ -80,5 +80,5 @@ This serves to enable easier development when using swoole server.
 - [ ] Include `Cookie` header in generated PSR-7 Server Request
 - [ ] Handle uploaded files
 - [ ] Stream request body instead of buffering it
-- [ ] Stream response body instead of buffering it
+- [x] ~~Stream response body instead of buffering it~~
 - [ ] Windows support?
