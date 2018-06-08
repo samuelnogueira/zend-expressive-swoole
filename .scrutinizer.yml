@@ -18,19 +18,18 @@ build:
             tests:
                 override:
                     - composer test
-        fresh:
+        latest:
             environment:
                 php: 7.2
             dependencies:
                 override:
-                    - yes | pecl install inotify swoole-2.1.0 xdebug
+                    - yes | pecl install inotify swoole-2.2.0 xdebug
                     - composer update --no-interaction
                     - composer show
             tests:
                 override:
                     - composer cs-check
-                    -
-                      command: composer test-coverage
+                    - command: composer test-coverage
                       coverage:
                           file: 'test/reports/coverage.xml'
                           format: 'clover'

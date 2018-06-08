@@ -10,7 +10,7 @@ jobs:
     working_directory: ~/zend-expressive-swoole
     steps:
       - checkout
-      - run: sudo pecl install inotify swoole-2.1.1
+      - run: sudo pecl install inotify swoole-2.2.0
       - run: sudo docker-php-ext-enable inotify swoole
 
       - restore_cache:
