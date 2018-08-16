@@ -1,4 +1,6 @@
-# zend-expressive-swoole
+# This library is abandoned and no longer maintained
+
+There is now an official Zend library for integrating swoole with zend expressive: https://github.com/zendframework/zend-expressive-swoole/
 
 [![Packagist Pre Release](https://img.shields.io/packagist/vpre/samuelnogueira/zend-expressive-swoole.svg)](https://packagist.org/packages/samuelnogueira/zend-expressive-swoole)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/samuelnogueira/zend-expressive-swoole/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/samuelnogueira/zend-expressive-swoole/?branch=master)
